@@ -5,9 +5,6 @@ import Footer from "./Footer";
  
 
 
-
-
-
 const Home = () => {
   return (
     <div  style={{ margin: 0, padding: 0 }}>

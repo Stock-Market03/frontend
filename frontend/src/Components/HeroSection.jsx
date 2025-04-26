@@ -2,7 +2,10 @@ import React from 'react';
 import { Box, Typography, Button, Container, Stack, useTheme } from '@mui/material';
 import { useNavigate } from 'react-router-dom'; // 1
 import Herosectionimg1 from '../assets/Herosectionimg1.jpg'; 
-
+import { Link } from 'react-router-dom';//
+<Link to="/admin">
+  <button>Go to Admin Page</button>
+</Link>
 
 const HeroSection = () => {
   const theme = useTheme();
@@ -34,19 +37,27 @@ const HeroSection = () => {
               Track live markets, get real-time insights, and maximize your returns with our powerful platform.
             </Typography>
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-              {/* <Button variant="contained" color="success" size="large"> */}
-              <Button
-                variant="contained"
-                color="success"
-                size="large"
-                onClick={() => navigate('/stocks')}
-              >
-                Get Started
-              </Button>
-              <Button variant="outlined" color="inherit" size="large">
-                Explore Features
-              </Button>
-            </Stack>
+            <Button
+              variant="contained"
+              color="success"
+              size="large"
+              onClick={() => navigate('/stocks')}
+            >
+              Get Started
+            </Button>
+            <Button variant="outlined" color="inherit" size="large">
+              Explore Features
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              size="large"
+              onClick={() => navigate('/admin')}
+            >
+              Admin Page
+            </Button>
+          </Stack>
+
           </Box>
 
           {/* Right Visual */}

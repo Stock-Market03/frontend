@@ -1,135 +1,56 @@
+
 import React, { useState } from 'react';
 import {
-  Container,
-  Typography,
-  Button,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  TextField,
-  Box,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
+  Container, Typography, TextField, MenuItem, Paper,
+  Divider, Button, Box, InputAdornment, Stack,
 } from '@mui/material';
 
 const Stocks = () => {
-  const [stocks, setStocks] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [currentStock, setCurrentStock] = useState({ name: '', quantity: '', price: '' });
-  const [editingIndex, setEditingIndex] = useState(null);
-
-  const handleOpen = () => {
-    setCurrentStock({ name: '', quantity: '', price: '' });
-    setEditingIndex(null);
-    setOpen(true);
-  };
-
-  const handleClose = () => setOpen(false);
+  const [stock, setStock] = useState({
+    name: '', quantity: '', price: '', sector: '', description: '',
+  });
 
   const handleChange = (e) => {
-    setCurrentStock({ ...currentStock, [e.target.name]: e.target.value });
-  };
-
-  const handleSave = () => {
-    if (editingIndex !== null) {
-      const updated = [...stocks];
-      updated[editingIndex] = currentStock;
-      setStocks(updated);
-    } else {
-      setStocks([...stocks, currentStock]);
-    }
-    handleClose();
-  };
-
-  const handleEdit = (index) => {
-    setCurrentStock(stocks[index]);
-    setEditingIndex(index);
-    setOpen(true);
-  };
-
-  const handleDelete = (index) => {
-    const updated = stocks.filter((_, i) => i !== index);
-    setStocks(updated);
+    setStock({ ...stock, [e.target.name]: e.target.value });
   };
 
   return (
-    <Container sx={{ mt: 10 }}>
-      <Typography variant="h4" fontWeight="bold" gutterBottom>
-        Buy & Sell Stocks
+    <Container maxWidth="sm" sx={{ mt: 8 }}>
+      <Typography variant="h4" fontWeight="bold" align="center" gutterBottom>
+        Buy / Edit Stock
       </Typography>
 
-      <Button variant="contained" color="primary" onClick={handleOpen} sx={{ my: 2 }}>
-        + Buy Stock
-      </Button>
-
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell><b>Name</b></TableCell>
-            <TableCell><b>Quantity</b></TableCell>
-            <TableCell><b>Price</b></TableCell>
-            <TableCell align="right"><b>Actions</b></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {stocks.map((stock, index) => (
-            <TableRow key={index}>
-              <TableCell>{stock.name}</TableCell>
-              <TableCell>{stock.quantity}</TableCell>
-              <TableCell>${stock.price}</TableCell>
-              <TableCell align="right">
-                <Button size="small" onClick={() => handleEdit(index)}>Edit</Button>
-                <Button size="small" color="error" onClick={() => handleDelete(index)}>Sell</Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-
-      {/* Modal Dialog */}
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{editingIndex !== null ? 'Edit Stock' : 'Buy New Stock'}</DialogTitle>
-        <DialogContent>
-          <TextField
-            margin="dense"
-            label="Stock Name"
-            name="name"
-            fullWidth
-            value={currentStock.name}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            label="Quantity"
-            name="quantity"
-            fullWidth
-            type="number"
-            value={currentStock.quantity}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            label="Price"
-            name="price"
-            fullWidth
-            type="number"
-            value={currentStock.price}
-            onChange={handleChange}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSave} variant="contained">
-            {editingIndex !== null ? 'Update' : 'Buy'}
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <Paper elevation={3} sx={{ p: 4, borderRadius: 3 }}>
+        <form>
+          <Stack spacing={3}>
+            <TextField label="Stock Name" variant="filled" fullWidth name="name"
+              value={stock.name} onChange={handleChange} />
+            <TextField label="Quantity" type="number" variant="filled" fullWidth name="quantity"
+              value={stock.quantity} onChange={handleChange} />
+            <TextField label="Price" type="number" variant="filled" fullWidth name="price"
+              value={stock.price} onChange={handleChange}
+              InputProps={{ startAdornment: <InputAdornment position="start">$</InputAdornment> }} />
+            <TextField label="Sector" select variant="filled" fullWidth name="sector"
+              value={stock.sector} onChange={handleChange}>
+              {['Tech', 'Finance', 'Health'].map(option => (
+                <MenuItem key={option} value={option}>{option}</MenuItem>
+              ))}
+            </TextField>
+            <TextField label="Description" multiline rows={3} variant="filled"
+              fullWidth name="description" value={stock.description} onChange={handleChange} />
+            <Divider />
+            <Box display="flex" justifyContent="space-between">
+              <Button variant="outlined">Cancel</Button>
+              <Button variant="contained">Buy Stock</Button>
+            </Box>
+          </Stack>
+        </form>
+      </Paper>
     </Container>
   );
 };
 
 export default Stocks;
+
+
+
